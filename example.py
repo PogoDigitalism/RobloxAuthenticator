@@ -21,7 +21,7 @@ def accept_trade(cookie,trade_id,OTP_SECRET,user_id):
             ,cookies={".ROBLOSECURITY": cookie}
             ,data=json.dumps({
                 'actionType': "Generic",
-                'challengeId': challengeIdMetaData,
+                'challengeId': challengeId_fromMetaData,
                 'code': pyotp.TOTP("OTP_SECRET").now()
             }))
     
