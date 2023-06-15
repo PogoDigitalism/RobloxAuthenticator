@@ -4,5 +4,7 @@ This is a simple function written for Python to combat Roblox' new 2FA authentic
 
 example.py contains the source.
 
+This functions requires the pyotp and requests libraries 
+
 **To contact me:**
 Pogo#4737 or PogoDigitalism when the new Discord username system rolls out.
