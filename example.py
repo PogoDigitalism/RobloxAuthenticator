@@ -35,7 +35,7 @@ def accept_trade(cookie,trade_id,OTP_SECRET,user_id):
 
     init_challengeId = r_init.headers.get('rblx-challenge-id')
     init_challengeType = r_init.headers.get('rblx-challenge-type')
-    r_accept = s.post(url=f"https://trades.roblox.com/v1/trades/{trade_id}/accept",headers={'rblx-challenge-id': init_challengeId,'rblx-challenge-metadata': challengeId_fromMetaData,'rblx-challenge-type': init_challengeType,'x-csrf-token': xcsrf_token ,"Content-Type": "application/json"},cookies={".ROBLOSECURITY": cookie})
+    r_accept = s.post(url=f"https://trades.roblox.com/v1/trades/{trade_id}/accept",headers={'rblx-challenge-id': init_challengeId,'rblx-challenge-metadata': Verification_MetaData,'rblx-challenge-type': init_challengeType,'x-csrf-token': xcsrf_token ,"Content-Type": "application/json"},cookies={".ROBLOSECURITY": cookie})
 
     return r_accept.json(),r_accept.status_code
  
