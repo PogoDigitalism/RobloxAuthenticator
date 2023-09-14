@@ -3,7 +3,7 @@ import json
 import ast
 import pyotp
 
-# I did not add any Exception catching in this code. I also did not optimise this code (there is not much to optimise about this though)
+# I did not add any Exception catching in this code.
 def accept_trade(cookie,trade_id,OTP_SECRET,user_id):
     s = requests.session()
     
