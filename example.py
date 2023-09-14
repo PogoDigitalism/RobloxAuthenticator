@@ -2,7 +2,6 @@ import base64
 import json
 import ast
 import pyotp
-# Credits to KeyNodes for showing how he decoded the metadata and got the actual required challengeId
 
 # I did not add any Exception catching in this code. I also did not optimise this code (there is not much to optimise about this though)
 def accept_trade(cookie,trade_id,OTP_SECRET,user_id):
