@@ -90,12 +90,12 @@ class TradeAuthenticator:
     def add(self, USER_ID: str , OTP_SECRET: str, RBLX_COOKIE: str, TAG: str = None) -> dict:
         """
         Adds a new  account to the account cache.
-        Can be called in other commands and can not be configured.
+        Can be called in other commands using the TAG parameter.
         
         :param str USER_ID: Roblox user ID to attach to the cachced account.
         :param str OTP_SECRET: OTP Secret string (Check the GitHub for more info).
         :param str RBLX_COOKIE: Your _ROBLOSECURITY cookie.
-        :param str TAG: [OPTIONAL] Add a tag to the added account to index it easily later and use its data.
+        :param str TAG: [OPTIONAL] Add a tag to the added account to index it easily later and use its data. If TAG is left empty, 
         
         """
         _l = locals()
