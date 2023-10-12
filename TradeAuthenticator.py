@@ -13,7 +13,6 @@ class _Account:
         self.RBLX_COOKIE = ck
         self.USER_ID = i_d
 
-
 class TradeAuthenticator:
     """
     The synchronous wrapper for TradeAuthenticator.
