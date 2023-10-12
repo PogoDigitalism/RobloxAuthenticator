@@ -57,8 +57,8 @@ class TradeAuthenticator:
         """Private method. """
         r_init = self.__current_session.post(url=f"https://trades.roblox.com/v1/trades/{TRADE_ID}/accept",headers={'x-csrf-token': XCSRF ,"Content-Type": "application/json"},cookies={".ROBLOSECURITY": self.__accs[self.__current_account]['RBLX_COOKIE']})
         if r_init.status_code == 200:
-            return False
-        elif r_init.status_code == 400:
+            return False, False, False
+        elif r_init.status_code == 400 or r_init.status_code == 401:
             return json.loads(base64.b64decode(r_init.headers.get('rblx-challenge-metadata')).decode("UTF-8"))['challengeId'], r_init.headers.get('rblx-challenge-id'), r_init.headers.get('rblx-challenge-type')
         else:
             j = r_init.json()
@@ -143,6 +143,7 @@ class TradeAuthenticator:
     def accept_trade(self, TAG: str, TRADE_ID: int) -> dict:
         """
         Accept a trade with the speficied account (through TAG) and the TRADE_ID of the trade that you want to accept.
+        Will return {'code': 1, 'Trade did not need authorization'} if the trade already went through in the first post request.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
@@ -158,6 +159,9 @@ class TradeAuthenticator:
         XCSRF = self.__getXCSRF()
         
         CHALLENGE_MD, CHALLENGE_ID, CHALLENGE_TYPE = self.__getChallengeID(XCSRF, TRADE_ID)
+
+        if not CHALLENGE_MD:
+            return {'code': 1, 'Trade did not need authorization'}
         
         FINAL_CMD = self.__twoStep(XCSRF, CHALLENGE_MD)
         
@@ -167,7 +171,9 @@ class TradeAuthenticator:
             return j
         else:
             raise APIError(f'APIError for accept_trade:\n\n{r_accept.status_code}, {j}')
-    
+
+        self.__current_session.close()
+
     def info(self, TAG: str) -> dict:
         """
         Get the data of an account.
