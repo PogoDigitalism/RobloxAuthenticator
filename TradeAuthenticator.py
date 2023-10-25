@@ -330,7 +330,7 @@ class TradeAuthenticatorAsync:
         if not self.__accs.get(TAG):
             raise KeyError(f'{TAG} does not exist in account cache.')
         
-        async with aiohttp.ClientSession('http://httpbin.org') as self.__current_session:
+        async with aiohttp.ClientSession() as self.__current_session:
             self.__current_account = TAG
             
             XCSRF = await self.__getXCSRF()
