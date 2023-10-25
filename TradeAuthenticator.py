@@ -86,11 +86,19 @@ class TradeAuthenticator:
                 'challengeId': CHALLENGE_MD,
                 'actionType': "Generic"
             }
-            return base64.b64encode(json.dumps(Verification_MetaData).encode("UTF-8"))
+            return base64.b64encode(json.dumps(Verification_MetaData).encode("UTF-8")), Verification_MetaData
         else:
             j = r_verify.json()
             raise APIError(f'APIError for __twoStep:\n\n{r_verify.status_code}, {j}')
+
+    def __redundant(self, XCSRF, vm, CHALLENGE_ID) -> None:
+        payload = {
+                    "challengeId": CHALLENGE_ID,"challengeMetadata": vm, "challengeType": "twostepverification"
+                            }
+        payload = json.dumps(payload)
+        response = self.__current_session.post("apis.roblox.com/challenge/v1/continue", headers={'x-csrf-token': XCSRF ,"Content-Type": "application/json"}, cookies=cookies={".ROBLOSECURITY": self.__accs[self.__current_account['RBLX_COOKIE']]}, json=payload)
         
+    
     def add(self, USER_ID: str , OTP_SECRET: str, RBLX_COOKIE: str, TAG: str = None) -> dict:
         """
         Adds a new  account to the account cache.
@@ -166,7 +174,9 @@ class TradeAuthenticator:
         if not CHALLENGE_MD:
             return {'code': 1, 'msg': 'Trade did not need authorization'}
 
-        FINAL_CMD = self.__twoStep(XCSRF, CHALLENGE_MD)
+        FINAL_CMD, vm = self.__twoStep(XCSRF, CHALLENGE_MD)
+
+        await self.__redundant(XCSRF, vm, CHALLENGE_ID)
         
         r_accept = self.__current_session.post(url=f"https://trades.roblox.com/v1/trades/{TRADE_ID}/accept",headers={'rblx-challenge-id': CHALLENGE_ID,'rblx-challenge-metadata': FINAL_CMD,'rblx-challenge-type': CHALLENGE_TYPE,'x-csrf-token': XCSRF ,"Content-Type": "application/json"},cookies={".ROBLOSECURITY": self.__accs[self.__current_account['RBLX_COOKIE']]})
         j = r_accept.json()
@@ -260,11 +270,18 @@ class TradeAuthenticatorAsync:
                 'challengeId': CHALLENGE_MD,
                 'actionType': "Generic"
             }
-            return base64.b64encode(json.dumps(Verification_MetaData).encode("UTF-8"))
+            return base64.b64encode(json.dumps(Verification_MetaData).encode("UTF-8")), Verification_MetaData
         else:
             j = r_verify.json()
             raise APIError(f'APIError for __twoStep:\n\n{r_verify.status}, {j}')
-        
+
+    async def __redundant(self, XCSRF, vm, CHALLENGE_ID) -> None:
+        payload = {
+                    "challengeId": CHALLENGE_ID,"challengeMetadata": vm, "challengeType": "twostepverification"
+                            }
+        payload = json.dumps(payload)
+        response = await self.__current_session.post("apis.roblox.com/challenge/v1/continue", headers={'x-csrf-token': XCSRF ,"Content-Type": "application/json"}, cookies=cookies={".ROBLOSECURITY": self.__accs[self.__current_account['RBLX_COOKIE']]}, json=payload)
+    
     def add(self, USER_ID: str , OTP_SECRET: str, RBLX_COOKIE: str, TAG: str = None) -> dict:
         """
         Adds a new  account to the account cache.
@@ -340,7 +357,9 @@ class TradeAuthenticatorAsync:
             if not CHALLENGE_MD:
                 return {'code': 1, 'msg': 'Trade did not need authorization'}
             
-            FINAL_CMD = await self.__twoStep(XCSRF, CHALLENGE_MD)
+            FINAL_CMD, vm = await self.__twoStep(XCSRF, CHALLENGE_MD)
+
+            await self.__redundant(XCSRF, vm, CHALLENGE_ID)
             
             r_accept = await self.__current_session.post(url=f"https://trades.roblox.com/v1/trades/{TRADE_ID}/accept",headers={'rblx-challenge-id': CHALLENGE_ID,'rblx-challenge-metadata': FINAL_CMD,'rblx-challenge-type': CHALLENGE_TYPE,'x-csrf-token': XCSRF ,"Content-Type": "application/json"},cookies={".ROBLOSECURITY": self.__accs[self.__current_account['RBLX_COOKIE']]})
             j = await r_accept.json()
