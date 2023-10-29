@@ -1,4 +1,6 @@
 # Roblox Trade Authenticator
+--> CURRENTLY A W.I.P. I RECOMMEND YOU DO NOT USE IT 1:1 IN ITS CURRENT STATE.
+
 Supports synchronous and asynchronous code
 ## This wrapper currently only provides ACCEPTING trades, additional features will be added in the future.
 This is a simple wrapper written for Python to combat Roblox' new **2FA MOBILE authentication** system. Contains both a synchronous and asynchronous class with methods.
