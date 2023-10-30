@@ -24,7 +24,7 @@ class TradeAuthenticator:
     def __init__(self) -> None:
         self.__accs: dict[str, dict[str,int]] = dict()
         self.__current_account = str()
-        self.__current_session = requests.Session()
+        self.__current_session: requests.Session()
     
     def __ExecuteSequence(self, **kwargs):
         METHOD = kwargs['METHOD']
@@ -198,7 +198,7 @@ class TradeAuthenticatorAsync:
     def __init__(self) -> None:
         self.__accs: dict[str, dict[str,int]] = dict()
         self.__current_account = str()
-        self.__current_session = aiohttp.ClientSession()
+        self.__current_session: aiohttp.ClientSession()
     
     async def __ExecuteSequence(self, **kwargs):
         METHOD = kwargs['METHOD']
