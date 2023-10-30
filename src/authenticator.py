@@ -132,7 +132,7 @@ class TradeAuthenticator:
         raise KeyError(f'{TAG} does not exist in account cache.')    
     
     @Validate.validate_types
-    def accept_trade(self, TAG: str, TRADE_ID: int) -> dict:
+    def accept_trade(self, TAG: str, TRADE_ID: int) -> requests.Response:
         """
         Accept a trade with the speficied account (through TAG) and the TRADE_ID of the trade that you want to accept.
         
@@ -147,10 +147,10 @@ class TradeAuthenticator:
         self.__current_account = TAG
         self.__current_session = requests.session()
         
-        self.__ExecuteSequence(METHOD='ACCEPT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
+        return self.__ExecuteSequence(METHOD='ACCEPT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
     
     @Validate.validate_types
-    def send_trade(self, TAG: str, TRADE_DATA: dict) -> dict:
+    def send_trade(self, TAG: str, TRADE_DATA: dict) -> requests.Response:
         """
         Accept a trade with the speficied account (through TAG) and the TRADE_ID of the trade that you want to accept.
         
@@ -165,7 +165,7 @@ class TradeAuthenticator:
         self.__current_account = TAG
         self.__current_session = requests.session()
         
-        self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
+        return self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
    
     @Validate.validate_types
     def info(self, TAG: str) -> dict:
@@ -302,7 +302,7 @@ class TradeAuthenticatorAsync:
         raise KeyError(f'{TAG} does not exist in account cache.')    
     
     @Validate.validate_types
-    async def accept_trade(self, TAG: str, TRADE_ID: int) -> dict:
+    async def accept_trade(self, TAG: str, TRADE_ID: int) -> aiohttp.ClientResponse:
         """
         Accept a trade with the speficied account (through TAG) and the TRADE_ID of the trade that you want to accept.
         
@@ -317,10 +317,10 @@ class TradeAuthenticatorAsync:
         self.__current_account = TAG
         self.__current_session = aiohttp.ClientSession()
         
-        await self.__ExecuteSequence(METHOD='ACCEPT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
+        return await self.__ExecuteSequence(METHOD='ACCEPT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
     
     @Validate.validate_types
-    async def send_trade(self, TAG: str, TRADE_DATA: dict) -> dict:
+    async def send_trade(self, TAG: str, TRADE_DATA: dict) -> aiohttp.ClientResponse:
         """
         Accept a trade with the speficied account (through TAG) and the TRADE_ID of the trade that you want to accept.
         
