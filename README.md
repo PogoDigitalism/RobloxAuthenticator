@@ -1,5 +1,6 @@
 # Roblox Trade Authenticator
---> CURRENTLY A W.I.P. I RECOMMEND YOU DO NOT USE IT 1:1 IN ITS CURRENT STATE. ⚠️
+ ⚠️ REPO IS CURRENTLY IN OVERHAUL, DON'T USE IT 1:1 AS OF RIGHT NOW. ⚠️
+(instead, copy the methods that I am using for authentication.)
 
 Supports synchronous and asynchronous code
 ## This wrapper currently only provides ACCEPTING trades, additional features will be added in the future.
