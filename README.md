@@ -1,7 +1,9 @@
 # Roblox Mobile Authenticator
 
 
-Supports synchronous and asynchronous code
+ 🎉 Easily authenticate your HTTP Requests with **RobloxMobileAuthenticator**! 🎉
+
+
 ## This wrapper currently only provides ACCEPTING and SENDING trades, additional features will be added in the future.
 This is an easy-to-use wrapper written in 100% Python to combat Roblox' new **2FA MOBILE authentication** system. Contains both a synchronous and asynchronous class with methods.
 
