@@ -1,5 +1,5 @@
 from utils import Formatting
-from tradeauthenticator import TradeAuthenticator, TradeAuthenticatorAsync
+from authenticator import TradeAuthenticator, TradeAuthenticatorAsync
 
 t = TradeAuthenticator()
 t.add(USER_ID = 98452948, 
