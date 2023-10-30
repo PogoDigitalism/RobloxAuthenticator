@@ -5,7 +5,8 @@
 
 
 ## This wrapper currently only provides ACCEPTING and SENDING trades, additional features will be added in the future.
-This is an easy-to-use wrapper written in 100% Python to combat Roblox' new **2FA MOBILE authentication** system. Contains both a synchronous and asynchronous class with methods.
+This is an easy-to-use wrapper written in 100% Python to automate process of Roblox' **2FA MOBILE authentication** system.
+RobloxMobileAuthenticator contains both a synchronous and asynchronous way of making these requests!
 
 
 This library requires the external pyotp, requests and aiohttp libraries to function. 
