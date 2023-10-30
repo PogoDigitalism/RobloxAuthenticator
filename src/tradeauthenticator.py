@@ -36,7 +36,6 @@ class TradeAuthenticator:
         
         resp: requests.Response
         for httpMethod in SEQUENCE:
-            print('\n\n\n', httpMethod, '\n\n\n')
             methodInfo = config.Config.HTTPCONFIG[httpMethod]
             
             methodHeaders = methodInfo['HEADERS']
@@ -64,8 +63,6 @@ class TradeAuthenticator:
                 url = methodInfo['URL']
             url = privUtils._urlProcessing(INIT_DATA, url)
 
-            print(url)
-            print(dataSubmit, headersSubmit, cookiesSubmit)
             if methodInfo['METHOD'] == 'POST':
                 resp = self.__current_session.post(url, data=json.dumps(dataSubmit), headers=headersSubmit, cookies=cookiesSubmit)
             elif methodInfo['METHOD'] == 'GET':
@@ -209,7 +206,6 @@ class TradeAuthenticatorAsync:
         SEQUENCE = config.Config._Sequence(METHOD)
 
         for httpMethod in SEQUENCE:
-            print('\n\n\n', httpMethod, '\n\n\n')
             methodInfo = config.Config.HTTPCONFIG[httpMethod]
             
             methodHeaders = methodInfo['HEADERS']
@@ -237,8 +233,6 @@ class TradeAuthenticatorAsync:
                 url = methodInfo['URL']
             url = privUtils._urlProcessing(INIT_DATA, url)
 
-            print(url)
-            print(dataSubmit, headersSubmit, cookiesSubmit)
             if methodInfo['METHOD'] == 'POST':
                 resp = await self.__current_session.post(url, data=json.dumps(dataSubmit), headers=headersSubmit, cookies=cookiesSubmit)
             elif methodInfo['METHOD'] == 'GET':
