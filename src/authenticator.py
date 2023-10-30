@@ -18,7 +18,7 @@ class TradeAuthenticator:
     The synchronous wrapper for TradeAuthenticator.
 
     Please read the GitHub for all info that you need.
-    https://github.com/PogoDigitalism/RobloxTradeAuthenticator/
+    https://github.com/PogoDigitalism/RobloxMobileAuthenticator/
     
     """  
     def __init__(self) -> None:
@@ -189,7 +189,7 @@ class TradeAuthenticatorAsync:
     The *A*synchronous wrapper for TradeAuthenticator.
 
     Please read the GitHub for all info that you need.
-    https://github.com/PogoDigitalism/RobloxTradeAuthenticator/
+    https://github.com/PogoDigitalism/RobloxMobileAuthenticator/
     
     """
     def __init__(self) -> None:
