@@ -11,9 +11,8 @@ You need:
  - ROBLOSECURITY cookie (for authorization)
  - Secret Key for TOTP (tutorial below)
 
-TradeAuthenticator.py contains the source.
 
-This function requires the external pyotp, requests and aiohttp libraries to function. 
+This library requires the external pyotp, requests and aiohttp libraries to function. 
 
 **To contact me:**
 PogoDigitalism on Discord
