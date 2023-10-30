@@ -1,4 +1,4 @@
-# Roblox Trade Authenticator
+# Roblox Mobile Authenticator
 
 
 Supports synchronous and asynchronous code
