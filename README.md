@@ -2,7 +2,7 @@
 # Roblox Mobile Authenticator
 
 
-     🎉 Easily authenticate your HTTP Requests with **RobloxMobileAuthenticator**! 🎉
+🎉 Easily authenticate your HTTP Requests with **RobloxMobileAuthenticator**! 🎉
 
 
 ## This wrapper currently only provides ACCEPTING and SENDING trades, additional features will be added in the future.
