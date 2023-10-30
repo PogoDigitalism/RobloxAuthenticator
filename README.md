@@ -15,6 +15,11 @@ RobloxMobileAuthenticator contains both a synchronous and asynchronous way of ma
 **To contact me:**
 PogoDigitalism on Discord
 
+### A small introduction:
+Check out [this](https://github.com/PogoDigitalism/RobloxMobileAuthenticator/blob/main/examples/sending_trades.py) for examples on how to use this lib.
+
+In order for RobloxMobileAuthenticator to make succesful HTTP requests, it requires a Roblox account's TOTP secret (to generate a 6-digit code) and .ROBLOSECURITY (to authorize requests).
+Below is a tutorial that shows how to get this TOTP as it is a bit hidden in your account settings.
 
 ### TOTP KEY TUTORIAL:
 To get the key, go to Roblox privacy settings, reset/add mobile authentication.
