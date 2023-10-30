@@ -1,7 +1,8 @@
+
 # Roblox Mobile Authenticator
 
 
- 🎉 Easily authenticate your HTTP Requests with **RobloxMobileAuthenticator**! 🎉
+     🎉 Easily authenticate your HTTP Requests with **RobloxMobileAuthenticator**! 🎉
 
 
 ## This wrapper currently only provides ACCEPTING and SENDING trades, additional features will be added in the future.
@@ -9,7 +10,7 @@ This is an easy-to-use wrapper written in 100% Python to automate process of Rob
 RobloxMobileAuthenticator contains both a synchronous and asynchronous way of making these requests!
 
 
-This library requires the external pyotp, requests and aiohttp libraries to function. 
+    ⚠️ This library requires the external pyotp, requests and aiohttp libraries to function. ⚠️
 
 **To contact me:**
 PogoDigitalism on Discord
