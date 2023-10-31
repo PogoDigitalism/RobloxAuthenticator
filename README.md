@@ -16,7 +16,7 @@ This library is therefore not made and compatible to be used as account stealer.
     ⚠️ RobloxAuthenticator requires the external pyotp, requests and aiohttp libraries to function. ⚠️
 
 ### A small introduction:
-Check out [this](https://github.com/PogoDigitalism/RobloxAuthenticator/blob/main/examples/sending_trades.py) for examples on how to use this lib.
+Check out [this](https://github.com/PogoDigitalism/RobloxAuthenticator/tree/main/examples) for examples on how to use RobloxAuthenticator.
 
 In order for RobloxAuthenticator to make succesful HTTP requests, it requires a Roblox account's TOTP secret (to generate a 6-digit code) and .ROBLOSECURITY (to authorize requests).
 Below is a tutorial that shows how to get this TOTP as it is a bit hidden in your account settings.
