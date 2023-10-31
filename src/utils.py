@@ -95,5 +95,34 @@ class Formatting:
             ]
         }
     
+    @staticmethod
+    @Validate.validate_types
+    def OneTimePayout(PAYOUT_RECIPIENT_USER_ID: int, ROBUX: int) -> dict[str, Union[dict[str, Union[str, int]], str]]:
+        """Formats your payout data into a dictionairy that can be used for a one-time payout to users."""
+        return {
+        "PayoutType": "FixedAmount",
+        "Recipients": [
+            {
+            "recipientId": PAYOUT_RECIPIENT_USER_ID,
+            "recipientType": "User",
+            "amount": ROBUX
+            }
+        ]
+        }
+    
+    @staticmethod
+    @Validate.validate_types
+    def RecurringPayout(PAYOUT_RECIPIENT_USER_ID: int, PERCENTAGE: int) -> dict[str, Union[dict[str, Union[str, int]], str]]:
+        """Formats your payout data into a dictionairy that can be used for a one-time payout to users."""
+        return {
+        "PayoutType": "Percentage",
+        "Recipients": [
+            {
+            "recipientId": PAYOUT_RECIPIENT_USER_ID,
+            "recipientType": "User",
+            "amount": PERCENTAGE
+            }
+        ]
+        }
     def __repr__(self) -> str:
         return f'CLASS'
