@@ -2,7 +2,7 @@ import requests
 import aiohttp
 import config
 from exceptions import APIError, AlreadyProcessedError
-from utils import Validate, privUtils, Formatting
+from utils import Validate, privUtils
 from typing import Union
 import json
 
@@ -13,7 +13,7 @@ class _Profile:
         self.USER_ID = i_d
 
 
-class TradeAuthenticator:
+class Authenticator:
     """
     The synchronous wrapper for TradeAuthenticator.
 
@@ -63,6 +63,7 @@ class TradeAuthenticator:
                 url = methodInfo['URL']
             url = privUtils._urlProcessing(INIT_DATA, url)
 
+            print(dataSubmit, url)
             if methodInfo['METHOD'] == 'POST':
                 resp = self.__current_session.post(url, data=json.dumps(dataSubmit), headers=headersSubmit, cookies=cookiesSubmit)
             elif methodInfo['METHOD'] == 'GET':
@@ -152,11 +153,12 @@ class TradeAuthenticator:
     @Validate.validate_types
     def send_trade(self, TAG: str, TRADE_DATA: dict) -> requests.Response:
         """
-        Accept a trade with the speficied account (through TAG) and the TRADE_ID of the trade that you want to accept.
+        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
-        :param str TRADE_ID: Speaks for itself. Make sure its the valid one though :)     
+        :param str TRADE_DATA: Speaks for itself. You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
         
         """
         if not self.__accs.get(TAG):
@@ -166,7 +168,47 @@ class TradeAuthenticator:
         self.__current_session = requests.session()
         
         return self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
-   
+    
+    @Validate.validate_types
+    def one_time_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> aiohttp.ClientResponse:
+        """
+        Pay out a group member for a single time with Robux. 
+        
+        :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
+        Will raise a *KeyError* if the TAG does not exist in the cache.
+        :param int GROUP_ID: Speaks for itself. Make sure its the valid one though :)    
+        :param dict PAYOUT_DATA: You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling OneTimePayout to get a formatted dictionairy.  
+        
+        """
+        if not self.__accs.get(TAG):
+            raise KeyError(f'{TAG} does not exist in account cache.')
+        
+        self.__current_account = TAG
+        self.__current_session = requests.Session()
+        
+        return self.__ExecuteSequence(METHOD='GROUP_ONE_TIME_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
+    
+    @Validate.validate_types
+    def recurring_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> aiohttp.ClientResponse:
+        """
+        Create a recurring payout in the form of a percentage of the total group funds (this is built-in in Roblox' API). 
+        
+        :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
+        Will raise a *KeyError* if the TAG does not exist in the cache.
+        :param int GROUP_ID: Speaks for itself. Make sure its the valid one though :)    
+        :param dict PAYOUT_DATA: You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling RecurringPayout to get a formatted dictionairy.  
+        
+        """
+        if not self.__accs.get(TAG):
+            raise KeyError(f'{TAG} does not exist in account cache.')
+        
+        self.__current_account = TAG
+        self.__current_session = requests.Session()
+        
+        return self.__ExecuteSequence(METHOD='GROUP_RECURRING_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
+           
     @Validate.validate_types
     def info(self, TAG: str) -> dict:
         """
@@ -184,7 +226,7 @@ class TradeAuthenticator:
         return f'CLASS REPR: {self.__accs}'
  
   
-class TradeAuthenticatorAsync:
+class AuthenticatorAsync:
     """
     The *A*synchronous wrapper for TradeAuthenticator.
 
@@ -318,15 +360,16 @@ class TradeAuthenticatorAsync:
         self.__current_session = aiohttp.ClientSession()
         
         return await self.__ExecuteSequence(METHOD='ACCEPT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
-    
+      
     @Validate.validate_types
     async def send_trade(self, TAG: str, TRADE_DATA: dict) -> aiohttp.ClientResponse:
         """
-        Accept a trade with the speficied account (through TAG) and the TRADE_ID of the trade that you want to accept.
+        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
-        :param str TRADE_ID: Speaks for itself. Make sure its the valid one though :)     
+        :param str TRADE_DATA: Speaks for itself. You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
         
         """
         if not self.__accs.get(TAG):
@@ -336,7 +379,47 @@ class TradeAuthenticatorAsync:
         self.__current_session = aiohttp.ClientSession()
         
         await self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
-   
+    
+    @Validate.validate_types
+    async def one_time_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> aiohttp.ClientResponse:
+        """
+        Pay out a group member for a single time with Robux. 
+        
+        :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
+        Will raise a *KeyError* if the TAG does not exist in the cache.
+        :param int GROUP_ID: Speaks for itself. Make sure its the valid one though :)    
+        :param dict PAYOUT_DATA: You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling OneTimePayout to get a formatted dictionairy.  
+        
+        """
+        if not self.__accs.get(TAG):
+            raise KeyError(f'{TAG} does not exist in account cache.')
+        
+        self.__current_account = TAG
+        self.__current_session = aiohttp.ClientSession()
+        
+        return await self.__ExecuteSequence(METHOD='GROUP_ONE_TIME_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
+    
+    @Validate.validate_types
+    async def recurring_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> aiohttp.ClientResponse:
+        """
+        Create a recurring payout in the form of a percentage of the total group funds (this is built-in in Roblox' API). 
+        
+        :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
+        Will raise a *KeyError* if the TAG does not exist in the cache.
+        :param int GROUP_ID: Speaks for itself. Make sure its the valid one though :)    
+        :param dict PAYOUT_DATA: You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling RecurringPayout to get a formatted dictionairy.  
+        
+        """
+        if not self.__accs.get(TAG):
+            raise KeyError(f'{TAG} does not exist in account cache.')
+        
+        self.__current_account = TAG
+        self.__current_session = aiohttp.ClientSession()
+        
+        return await self.__ExecuteSequence(METHOD='GROUP_RECURRING_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
+        
     @Validate.validate_types
     def info(self, TAG: str) -> dict:
         """
