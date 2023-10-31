@@ -55,9 +55,10 @@ class Validate:
     def _types(*args, **kwargs) -> bool | None:
         """Private method. """
         
-        args = list(args)
-        if 'CLASS' in str(args[0]): 
-            args.pop(0)
+        if args:
+            args = list(args)
+            if 'CLASS' in str(args[0]): 
+                args.pop(0)
             
         _locals = {}
         for i, arg in enumerate(args):
