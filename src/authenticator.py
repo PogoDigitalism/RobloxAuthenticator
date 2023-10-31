@@ -50,20 +50,19 @@ class Authenticator:
                 for d in methodData:
                     dataSubmit[d] = varDict[methodData[d]]
             else:
-                dataSubmit = kwargs['INIT_DATA']['POSTDATA']
+                dataSubmit = kwargs['INIT_DATA']['POSTDATA'] #In other words, if it's time to apply the passed initial method data (trade data, payout data), then set dataSubmit to thta
                 
             methodCookies = methodInfo['COOKIES']
             cookiesSubmit = {}
             for c in methodCookies:
                 cookiesSubmit[c] = varDict[c]
 
-            if methodInfo['URL'] is None:
+            if not methodInfo['URL']:
                 url = config.Config.URLCONFIG[httpMethod][METHOD]
             else:
                 url = methodInfo['URL']
-            url = privUtils._urlProcessing(INIT_DATA, url)
+            url = privUtils._urlProcessing(INIT_DATA, url) # private utility function to replace $VAR_NAME$ in the links with VAR_NAME's value
 
-            print(dataSubmit, url)
             if methodInfo['METHOD'] == 'POST':
                 resp = self.__current_session.post(url, data=json.dumps(dataSubmit), headers=headersSubmit, cookies=cookiesSubmit)
             elif methodInfo['METHOD'] == 'GET':
@@ -71,12 +70,12 @@ class Authenticator:
            
             if resp.status_code in methodInfo['STATUS']:
                 for respHeader in methodInfo['RETURN_HEADERS']:   
-                    varDict[respHeader] = resp.headers.get(respHeader)
+                    varDict[respHeader] = resp.headers.get(respHeader) #Get required headers and store them in VAR_DICT
 
                 if methodInfo['PROCESSING']:
-                    for i, funcs in enumerate(methodInfo['PROCESSING'][0]):
-                        varDict[methodInfo['PROCESSING'][1][i]] = getattr(privUtils, methodInfo['PROCESSING'][0][i])(resp, varDict)
-            else:
+                    for i, funcs in enumerate(methodInfo['PROCESSING'][0]): # Loops through all methods required to process the response of the HTTP request
+                        varDict[methodInfo['PROCESSING'][1][i]] = getattr(privUtils, methodInfo['PROCESSING'][0][i])(resp, varDict) 
+            else: #You want to catch these Exceptions in your main code
                 if resp.status_code == 200:
                     raise AlreadyProcessedError('No authentication needed.')
                 else:
