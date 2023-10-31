@@ -10,7 +10,7 @@ This is an easy-to-use wrapper written in 100% Python to automate process of Rob
 RobloxAuthenticator contains both a synchronous and asynchronous way of making these requests!
 
 `❗ This is **NOT** a 2FA bypasser and can not be used to gain unauthorized access to Roblox accounts. I strongly discourage account theft and any other malicious practices of such matter.
-This library is not made for the intend of such. RobloxAuthenticator is simply for enthusiastic people like me who want to make their life easier and do good for others.`
+This library is not made for the intend of such. RobloxAuthenticator is simply for enthusiastic people like me who want to make their life easier, make cool stuff and do good for others.`
 
 
     ⚠️ RobloxAuthenticator requires the external pyotp, requests and aiohttp libraries to function. ⚠️
