@@ -1,16 +1,27 @@
 from typing import Union
 
 class Config:
+    """Do not mess with the configs unless you know what you're doing!"""
     URLCONFIG = {
         'CHALLENGEID':
             {
                 'SEND': 'https://trades.roblox.com/v1/trades/send',
-                'ACCEPT': 'https://trades.roblox.com/v1/trades/$TRADE_ID$/accept'
+                'ACCEPT': 'https://trades.roblox.com/v1/trades/$TRADE_ID$/accept',
+            },
+        'GROUP_CHALLENGEID':
+            {
+                'GROUP_ONE_TIME_PAYOUT': 'https://groups.roblox.com/v1/groups/$GROUP_ID$/payouts',
+                'GROUP_RECURRING_PAYOUT': 'https://groups.roblox.com/v1/groups/$GROUP_ID$/payouts/recurring',
             },
         'TRADE':
             {
                 'SEND': 'https://trades.roblox.com/v1/trades/send',
                 'ACCEPT': 'https://trades.roblox.com/v1/trades/$TRADE_ID$/accept'
+            },
+        'GROUP':
+            {
+                'GROUP_ONE_TIME_PAYOUT': 'https://groups.roblox.com/v1/groups/$GROUP_ID$/payouts',
+                'GROUP_RECURRING_PAYOUT': 'https://groups.roblox.com/v1/groups/$GROUP_ID$/payouts/recurring',
             }
     }
     
@@ -34,6 +45,16 @@ class Config:
             'HEADERS': ['x-csrf-token', 'Content-Type'],
             'DATA': {},
             'STATUS': [403],
+            'RETURN_HEADERS': ["rblx-challenge-metadata", "rblx-challenge-id", "rblx-challenge-type"],
+            'PROCESSING': [['_getMetaDataChallengeId'],['challengeId']]
+        },
+        'GROUP_CHALLENGEID': {
+            'METHOD': 'POST',
+            'URL': None,
+            'COOKIES': ['.ROBLOSECURITY'],
+            'HEADERS': ['x-csrf-token', 'Content-Type'],
+            'DATA': 'GROUP',
+            'STATUS': [400],
             'RETURN_HEADERS': ["rblx-challenge-metadata", "rblx-challenge-id", "rblx-challenge-type"],
             'PROCESSING': [['_getMetaDataChallengeId'],['challengeId']]
         },
@@ -72,11 +93,24 @@ class Config:
             'RETURN_HEADERS' : [],
             'PROCESSING': None
         },
+        # rblx-challenge-id': CHALLENGE_ID,'rblx-challenge-metadata': FINAL_CMD,'rblx-challenge-type': CHALLENGE_TYPE,'x-csrf-token': XCSRF ,"Content-Type": "application/json
+        'GROUP': {
+            'METHOD': 'POST',
+            'URL': None,
+            'COOKIES': ['.ROBLOSECURITY'],
+            'HEADERS': ['x-csrf-token', 'Content-Type', "rblx-challenge-metadata", "rblx-challenge-id", "rblx-challenge-type"],
+            'DATA': 'PAYOUT',
+            'STATUS': [200],
+            'RETURN_HEADERS' : [],
+            'PROCESSING': None
+        },
     }
     
     SEQUENCECONFIG = {
         'SEND': ['XCSRF', 'CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'TRADE'],
-        'ACCEPT': ['XCSRF', 'CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'TRADE'],       
+        'ACCEPT': ['XCSRF', 'CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'TRADE'],
+        'GROUP_ONE_TIME_PAYOUT': ['XCSRF', 'GROUP_CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'GROUP'],
+        'GROUP_RECURRING_PAYOUT': ['XCSRF', 'GROUP_CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'GROUP'],       
     }
 
     METHOD_ARGS =  {
@@ -85,7 +119,10 @@ class Config:
         'remove': ['TAG'],
         'accept_trade': ['TAG', 'TRADE_ID'],
         'send_trade': ['TAG', 'TRADE_DATA'],
-        'TradeData': ['SENDER_USER_ID', 'TRADE_RECIPIENT_USER_ID', 'OFFER', 'REQUEST', 'ROBUX', 'RECIPIENT_ROBUX']
+        'one_time_payout': ['TAG', 'GROUP_ID', 'PAYOUT_DATA'],
+        'TradeData': ['SENDER_USER_ID', 'TRADE_RECIPIENT_USER_ID', 'OFFER', 'REQUEST', 'ROBUX', 'RECIPIENT_ROBUX'],
+        'OneTimePayout': ['PAYOUT_RECIPIENT_USER_ID', 'ROBUX'],
+        'RecurringPayout': ['PAYOUT_RECIPIENT_USER_ID', 'PERCENTAGE'],
     }
     
     VALIDATE_TYPES = {'USER_ID': Union[str, int],
@@ -97,6 +134,10 @@ class Config:
                   'TRADE_ID': int,
                   'OFFER': list,
                   'REQUEST': list,
+                  'PAYOUT_RECIPIENT_USER_ID': int,
+                  'GROUP_ID': int,
+                  'PAYOUT_DATA': dict,
+                  'PERCENTAGE': int,
                   
                   'TRADE_RECIPIENT_USER_ID': Union[str, int],
                   'SENDER_USER_ID': int,
