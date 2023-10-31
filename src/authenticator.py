@@ -6,7 +6,7 @@ from utils import Validate, privUtils
 from typing import Union
 import json
 
-class _Profile:
+class _Profile: #Kind of redundant, added for code readibility
     def __init__(self, otp, ck, i_d) -> None:
         self.OTP_SECRET = otp
         self.RBLX_COOKIE = ck
@@ -26,7 +26,7 @@ class Authenticator:
         self.__current_account = str()
         self.__current_session: requests.Session()
     
-    def __ExecuteSequence(self, **kwargs):
+    def __ExecuteSequence(self, **kwargs): #Main sequence
         METHOD = kwargs['METHOD']
         INIT_DATA: dict = kwargs['INIT_DATA']
         varDict = {'Content-Type': 'application/json', 'actionType': 7}
@@ -45,7 +45,7 @@ class Authenticator:
                 
             methodData = methodInfo['DATA']
             if not isinstance(methodData, str):
-                varDict['OTP_SECRET'] = privUtils._secrTo6Digi(self.__accs[self.__current_account]['OTP_SECRET'])
+                varDict['OTP_SECRET'] = privUtils._secrTo6Digi(self.__accs[self.__current_account]['OTP_SECRET']) #Stores the generated 6-Digit code in OTP_SECRET
                 dataSubmit = {}
                 for d in methodData:
                     dataSubmit[d] = varDict[methodData[d]]
