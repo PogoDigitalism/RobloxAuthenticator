@@ -1,3 +1,4 @@
+# old single function to accept a trade, not recommended to use. Just here as archived file (and code comparison)
 import base64
 import json
 import ast
