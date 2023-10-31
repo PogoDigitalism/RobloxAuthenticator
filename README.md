@@ -5,7 +5,7 @@
 🎉 Easily authenticate your HTTP Requests with **RobloxMobileAuthenticator**! 🎉
 
 
-## This wrapper currently only provides ACCEPTING and SENDING trades, additional features will be added in the future.
+## This tool provides automation of group payouts and trades!
 This is an easy-to-use wrapper written in 100% Python to automate process of Roblox' **2FA MOBILE authentication** system.
 RobloxMobileAuthenticator contains both a synchronous and asynchronous way of making these requests!
 
