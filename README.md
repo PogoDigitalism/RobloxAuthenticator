@@ -10,7 +10,7 @@ This is an easy-to-use wrapper written in 100% Python to automate process of Rob
 RobloxMobileAuthenticator contains both a synchronous and asynchronous way of making these requests!
 
 
-    ⚠️ This library requires the external pyotp, requests and aiohttp libraries to function. ⚠️
+    ⚠️ RobloxMobileAuthenticator requires the external pyotp, requests and aiohttp libraries to function. ⚠️
 
 ### A small introduction:
 Check out [this](https://github.com/PogoDigitalism/RobloxMobileAuthenticator/blob/main/examples/sending_trades.py) for examples on how to use this lib.
