@@ -1,6 +1,6 @@
 
 # Roblox Authenticator
-### by PogoDigitalism (contact me on Discord 🌟)
+### by PogoDigitalism (contact me on Discord <img src="https://i.pinimg.com/736x/79/94/28/7994282748b571ed81197ed915d998ea.jpg" width="22" height="22">)
 
 🎉 Easily authenticate your HTTP Requests with **RobloxAuthenticator**! 🎉
 
