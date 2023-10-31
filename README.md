@@ -1,6 +1,6 @@
 
 # Roblox Mobile Authenticator
-
+by PogoDigitalism (Same username on Discord)
 
 🎉 Easily authenticate your HTTP Requests with **RobloxMobileAuthenticator**! 🎉
 
@@ -11,9 +11,6 @@ RobloxMobileAuthenticator contains both a synchronous and asynchronous way of ma
 
 
     ⚠️ This library requires the external pyotp, requests and aiohttp libraries to function. ⚠️
-
-**To contact me:**
-PogoDigitalism on Discord
 
 ### A small introduction:
 Check out [this](https://github.com/PogoDigitalism/RobloxMobileAuthenticator/blob/main/examples/sending_trades.py) for examples on how to use this lib.
