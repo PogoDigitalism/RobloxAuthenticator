@@ -2,7 +2,7 @@ import requests
 import aiohttp
 import config
 from exceptions import APIError, AlreadyProcessedError
-from utils import Validate, privUtils, Formatting, AsyncprivUtils
+from utils import Validate, privUtils, Formatting
 from typing import Union
 import json
 
