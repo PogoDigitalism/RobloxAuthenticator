@@ -5,6 +5,7 @@ import pyotp
 import json
 import base64
 import config
+import asyncio
 
 class privUtils:
     def _getMetaDataChallengeId(resp: Union[requests.Response, aiohttp.ClientResponse], VAR_DICT: dict):
@@ -52,6 +53,15 @@ class Validate:
         return wrapper
     
     @staticmethod
+    def validate_tag(func):
+        def wrapper(*args, **kwargs):
+            Validate._tag(*args, **kwargs, funcname = func.__name__)
+            
+            result = func(*args, **kwargs)
+            return result
+        return wrapper
+
+    @staticmethod
     def _types(*args, **kwargs) -> bool | None:
         """Private method. """
         
@@ -66,9 +76,14 @@ class Validate:
         for kwarg in kwargs:
             _locals[kwarg] = kwargs[kwarg]
         _locals.pop('funcname')
-            
+        print(_locals)
         for _k in _locals:
             if not _locals.get(_k):
+                try:
+                    if _locals[_k] == 0:
+                        continue
+                except:
+                    pass
                 raise KeyError(f'{_k} is not a valid keyword argument.')
 
             if not isinstance(_locals[_k], config.Config.VALIDATE_TYPES[_k]):
@@ -76,6 +91,11 @@ class Validate:
 
         return True
 
+    @staticmethod
+    def _tag(*args, **kwargs) -> bool | None:
+        print(args, kwargs)
+        """Private method. """
+        
 class Formatting:
     @staticmethod
     @Validate.validate_types
@@ -114,7 +134,7 @@ class Formatting:
     @staticmethod
     @Validate.validate_types
     def RecurringPayout(PAYOUT_RECIPIENT_USER_ID: int, PERCENTAGE: int) -> dict[str, Union[dict[str, Union[str, int]], str]]:
-        """Formats your payout data into a dictionairy that can be used for a one-time payout to users."""
+        """Formats your payout data into a dictionairy that can be used for a recurring payout to users."""
         return {
         "PayoutType": "Percentage",
         "Recipients": [
@@ -125,5 +145,14 @@ class Formatting:
             }
         ]
         }
+    
+    @staticmethod
+    @Validate.validate_types
+    def AccessoryPurchase(PRICE: int, SELLER_ID: int) -> dict[str, Union[dict[str, Union[str, int]], str]]:
+        """Formats your accessory purchase data into a dictionairy that can be used for a purchase of an item that may require 2FA."""
+        return {"expectedCurrency": 1,
+                "expectedPrice": PRICE,
+                "expectedSellerId": SELLER_ID}
+    
     def __repr__(self) -> str:
         return f'CLASS'
