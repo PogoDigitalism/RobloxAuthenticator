@@ -37,6 +37,7 @@ class Authenticator:
         resp: requests.Response
         for httpMethod in SEQUENCE:
             methodInfo = config.Config.HTTPCONFIG[httpMethod]
+            print(methodInfo)
             
             methodHeaders = methodInfo['HEADERS']
             headersSubmit = {}
@@ -44,13 +45,15 @@ class Authenticator:
                 headersSubmit[h] = varDict[h]
                 
             methodData = methodInfo['DATA']
+            print(type(methodData))
             if not isinstance(methodData, str):
                 varDict['OTP_SECRET'] = privUtils._secrTo6Digi(self.__accs[self.__current_account]['OTP_SECRET']) #Stores the generated 6-Digit code in OTP_SECRET
                 dataSubmit = {}
                 for d in methodData:
                     dataSubmit[d] = varDict[methodData[d]]
             else:
-                dataSubmit = kwargs['INIT_DATA']['POSTDATA'] #In other words, if it's time to apply the passed initial method data (trade data, payout data), then set dataSubmit to thta
+                print('METHOD DATA ITS A STRING')
+                dataSubmit = kwargs['INIT_DATA']['POSTDATA'] #In other words, if it's time to apply the passed initial method data (trade data, payout data), then set dataSubmit to that
                 
             methodCookies = methodInfo['COOKIES']
             cookiesSubmit = {}
@@ -63,6 +66,7 @@ class Authenticator:
                 url = methodInfo['URL']
             url = privUtils._urlProcessing(INIT_DATA, url) # private utility function to replace $VAR_NAME$ in the links with VAR_NAME's value
 
+            print(cookiesSubmit, dataSubmit, headersSubmit, url)
             if methodInfo['METHOD'] == 'POST':
                 resp = self.__current_session.post(url, data=json.dumps(dataSubmit), headers=headersSubmit, cookies=cookiesSubmit)
             elif methodInfo['METHOD'] == 'GET':
@@ -77,6 +81,7 @@ class Authenticator:
                         varDict[methodInfo['PROCESSING'][1][i]] = getattr(privUtils, methodInfo['PROCESSING'][0][i])(resp, varDict) 
             else: #You want to catch these Exceptions in your main code
                 if resp.status_code == 200:
+                    print(resp.json())
                     raise AlreadyProcessedError('No authentication needed.')
                 else:
                     raise APIError(f'HTTP Request failed\n\n{resp.status_code}: {resp.json()}')
@@ -169,7 +174,7 @@ class Authenticator:
         return self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
     
     @Validate.validate_types
-    def one_time_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> aiohttp.ClientResponse:
+    def one_time_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> requests.Response:
         """
         Pay out a group member for a single time with Robux. 
         
@@ -189,7 +194,7 @@ class Authenticator:
         return self.__ExecuteSequence(METHOD='GROUP_ONE_TIME_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
     
     @Validate.validate_types
-    def recurring_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> aiohttp.ClientResponse:
+    def recurring_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> requests.Response:
         """
         Create a recurring payout in the form of a percentage of the total group funds (this is built-in in Roblox' API). 
         
@@ -207,7 +212,28 @@ class Authenticator:
         self.__current_session = requests.Session()
         
         return self.__ExecuteSequence(METHOD='GROUP_RECURRING_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
-           
+
+    @Validate.validate_tag    
+    @Validate.validate_types
+    def accessory_purchase(self, TAG: str, ACCESSORY_ID: int, PURCHASE_DATA: dict) -> requests.Response:
+        """
+        Create a recurring payout in the form of a percentage of the total group funds (this is built-in in Roblox' API). 
+        
+        :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
+        Will raise a *KeyError* if the TAG does not exist in the cache.
+        :param int SELLER_ID: Speaks for itself, can be a group or user ID. Make sure its the valid one though :)    
+        :param dict PURCHASE_DATA: You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling AccessoryPurchase to get a formatted dictionairy.  
+        
+        """
+        if not self.__accs.get(TAG):
+            raise KeyError(f'{TAG} does not exist in account cache.')
+        
+        self.__current_account = TAG
+        self.__current_session = requests.Session()
+        
+        return self.__ExecuteSequence(METHOD='ACCESSORY_PURCHASE', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'ACCESSORY_ID': ACCESSORY_ID, 'POSTDATA': PURCHASE_DATA})
+          
     @Validate.validate_types
     def info(self, TAG: str) -> dict:
         """
@@ -418,6 +444,27 @@ class AuthenticatorAsync:
         self.__current_session = aiohttp.ClientSession()
         
         return await self.__ExecuteSequence(METHOD='GROUP_RECURRING_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
+    
+    @Validate.validate_tag    
+    @Validate.validate_types
+    async def accessory_purchase(self, TAG: str, ACCESSORY_ID: int, PURCHASE_DATA: dict) -> requests.Response:
+        """
+        Create a recurring payout in the form of a percentage of the total group funds (this is built-in in Roblox' API). 
+        
+        :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
+        Will raise a *KeyError* if the TAG does not exist in the cache.
+        :param int SELLER_ID: Speaks for itself, can be a group or user ID. Make sure its the valid one though :)    
+        :param dict PURCHASE_DATA: You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling AccessoryPurchase to get a formatted dictionairy.  
+        
+        """
+        if not self.__accs.get(TAG):
+            raise KeyError(f'{TAG} does not exist in account cache.')
+        
+        self.__current_account = TAG
+        self.__current_session = requests.Session()
+        
+        return await self.__ExecuteSequence(METHOD='ACCESSORY_PURCHASE', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'ACCESSORY_ID': ACCESSORY_ID, 'POSTDATA': PURCHASE_DATA})
         
     @Validate.validate_types
     def info(self, TAG: str) -> dict:
