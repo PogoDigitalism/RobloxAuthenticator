@@ -37,7 +37,6 @@ class Authenticator:
         resp: requests.Response
         for httpMethod in SEQUENCE:
             methodInfo = config.Config.HTTPCONFIG[httpMethod]
-            print(methodInfo)
             
             methodHeaders = methodInfo['HEADERS']
             headersSubmit = {}
@@ -45,14 +44,12 @@ class Authenticator:
                 headersSubmit[h] = varDict[h]
                 
             methodData = methodInfo['DATA']
-            print(type(methodData))
             if not isinstance(methodData, str):
                 varDict['OTP_SECRET'] = privUtils._secrTo6Digi(self._accs[self.__current_account]['OTP_SECRET']) #Stores the generated 6-Digit code in OTP_SECRET
                 dataSubmit = {}
                 for d in methodData:
                     dataSubmit[d] = varDict[methodData[d]]
             else:
-                print('METHOD DATA ITS A STRING')
                 dataSubmit = kwargs['INIT_DATA']['POSTDATA'] #In other words, if it's time to apply the passed initial method data (trade data, payout data), then set dataSubmit to that
                 
             methodCookies = methodInfo['COOKIES']
@@ -66,7 +63,6 @@ class Authenticator:
                 url = methodInfo['URL']
             url = privUtils._urlProcessing(INIT_DATA, url) # private utility function to replace $VAR_NAME$ in the links with VAR_NAME's value
 
-            print(cookiesSubmit, dataSubmit, headersSubmit, url)
             if methodInfo['METHOD'] == 'POST':
                 resp = self.__current_session.post(url, data=json.dumps(dataSubmit), headers=headersSubmit, cookies=cookiesSubmit)
             elif methodInfo['METHOD'] == 'GET':
@@ -81,7 +77,6 @@ class Authenticator:
                         varDict[methodInfo['PROCESSING'][1][i]] = getattr(privUtils, methodInfo['PROCESSING'][0][i])(resp, varDict) 
             else: #You want to catch these Exceptions in your main code
                 if resp.status_code == 200:
-                    print(resp.json())
                     raise AlreadyProcessedError('No authentication needed.')
                 else:
                     raise APIError(f'HTTP Request failed\n\n{resp.status_code}: {resp.json()}')
