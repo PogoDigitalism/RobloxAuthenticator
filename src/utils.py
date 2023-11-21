@@ -55,10 +55,8 @@ class Validate:
     @staticmethod
     def validate_tag(func):
         def wrapper(*args, **kwargs):
+            print(func.__name__, args, kwargs)
             Validate._tag(*args, **kwargs, funcname = func.__name__)
-            
-            result = func(*args, **kwargs)
-            return result
         return wrapper
 
     @staticmethod
@@ -76,7 +74,6 @@ class Validate:
         for kwarg in kwargs:
             _locals[kwarg] = kwargs[kwarg]
         _locals.pop('funcname')
-        print(_locals)
         for _k in _locals:
             if not _locals.get(_k):
                 try:
@@ -93,7 +90,8 @@ class Validate:
 
     @staticmethod
     def _tag(*args, **kwargs) -> bool | None:
-        print(args, kwargs)
+        if not args[0]._accs.get(args[1]):
+            raise KeyError(f"{args[1]} does not exist in account cache.")
         """Private method. """
         
 class Formatting:
