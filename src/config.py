@@ -141,6 +141,7 @@ class Config:
         'accept_trade': ['TAG', 'TRADE_ID'],
         'send_trade': ['TAG', 'TRADE_DATA'],
         'one_time_payout': ['TAG', 'GROUP_ID', 'PAYOUT_DATA'],
+        'recurring_payout': ['TAG', 'GROUP_ID', 'PAYOUT_DATA'],
         'accessory_purchase': ['TAG', 'ACCESSORY_ID', 'PURCHASE_DATA'],
         'TradeData': ['SENDER_USER_ID', 'TRADE_RECIPIENT_USER_ID', 'OFFER', 'REQUEST', 'ROBUX', 'RECIPIENT_ROBUX'],
         'OneTimePayout': ['PAYOUT_RECIPIENT_USER_ID', 'ROBUX'],
