@@ -55,7 +55,6 @@ class Validate:
     @staticmethod
     def validate_tag(func):
         def wrapper(*args, **kwargs):
-            print(func.__name__, args, kwargs)
             Validate._tag(*args, **kwargs, funcname = func.__name__)
         return wrapper
 
