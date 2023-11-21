@@ -125,9 +125,7 @@ class Config:
             'PROCESSING': None
         },
     }
-    
-    # https://economy.roblox.com/v1/purchases/products/1327881684
-    
+        
     SEQUENCECONFIG = {
         'SEND': ['XCSRF', 'CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'TRADE'],
         'ACCEPT': ['XCSRF', 'CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'TRADE'],
