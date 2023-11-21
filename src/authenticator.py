@@ -22,7 +22,7 @@ class Authenticator:
     
     """  
     def __init__(self) -> None:
-        self.__accs: dict[str, dict[str,int]] = dict()
+        self._accs: dict[str, dict[str,int]] = dict()
         self.__current_account = str()
         self.__current_session: requests.Session()
     
@@ -30,7 +30,7 @@ class Authenticator:
         METHOD = kwargs['METHOD']
         INIT_DATA: dict = kwargs['INIT_DATA']
         varDict = {'Content-Type': 'application/json', 'actionType': 7}
-        varDict['.ROBLOSECURITY'] = self.__accs[self.__current_account]['RBLX_COOKIE']
+        varDict['.ROBLOSECURITY'] = self._accs[self.__current_account]['RBLX_COOKIE']
         
         SEQUENCE = config.Config._Sequence(METHOD)
         
@@ -47,7 +47,7 @@ class Authenticator:
             methodData = methodInfo['DATA']
             print(type(methodData))
             if not isinstance(methodData, str):
-                varDict['OTP_SECRET'] = privUtils._secrTo6Digi(self.__accs[self.__current_account]['OTP_SECRET']) #Stores the generated 6-Digit code in OTP_SECRET
+                varDict['OTP_SECRET'] = privUtils._secrTo6Digi(self._accs[self.__current_account]['OTP_SECRET']) #Stores the generated 6-Digit code in OTP_SECRET
                 dataSubmit = {}
                 for d in methodData:
                     dataSubmit[d] = varDict[methodData[d]]
@@ -105,9 +105,10 @@ class Authenticator:
             TAG = USER_ID
 
         accountData: dict = _Profile(OTP_SECRET, RBLX_COOKIE, int(USER_ID)).__dict__
-        self.__accs[TAG] = accountData
+        self._accs[TAG] = accountData
         return accountData
-    
+
+    @Validate.validate_tag   
     @Validate.validate_types
     def config(self, TAG: str, UPDATED_INFO: dict[str, str]) -> dict:
         """
@@ -118,10 +119,11 @@ class Authenticator:
         
         """
         for _k in UPDATED_INFO:
-            self.__accs[TAG][_k] = UPDATED_INFO[_k]
+            self._accs[TAG][_k] = UPDATED_INFO[_k]
             
-        return self.__accs[TAG]
-    
+        return self._accs[TAG]
+
+    @Validate.validate_tag   
     @Validate.validate_types
     def remove(self, TAG: str) -> bool:
         """
@@ -131,11 +133,9 @@ class Authenticator:
         Will raise a *KeyError* if the TAG does not exist in the cache.
         
         """
-        if self.__accs.get(TAG):
-            self.__accs.pop(TAG)
-            return True
-        raise KeyError(f'{TAG} does not exist in account cache.')    
-    
+        self._accs.pop(TAG)
+
+    @Validate.validate_tag   
     @Validate.validate_types
     def accept_trade(self, TAG: str, TRADE_ID: int) -> requests.Response:
         """
@@ -146,14 +146,14 @@ class Authenticator:
         :param str TRADE_ID: Speaks for itself. Make sure its the valid one though :)     
         
         """
-        if not self.__accs.get(TAG):
-            raise KeyError(f'{TAG} does not exist in account cache.')
+
         
         self.__current_account = TAG
         self.__current_session = requests.session()
         
-        return self.__ExecuteSequence(METHOD='ACCEPT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
-    
+        return self.__ExecuteSequence(METHOD='ACCEPT', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
+
+    @Validate.validate_tag   
     @Validate.validate_types
     def send_trade(self, TAG: str, TRADE_DATA: dict) -> requests.Response:
         """
@@ -165,14 +165,14 @@ class Authenticator:
         importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
         
         """
-        if not self.__accs.get(TAG):
-            raise KeyError(f'{TAG} does not exist in account cache.')
+
         
         self.__current_account = TAG
         self.__current_session = requests.session()
         
-        return self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
-    
+        return self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
+
+    @Validate.validate_tag   
     @Validate.validate_types
     def one_time_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> requests.Response:
         """
@@ -185,14 +185,14 @@ class Authenticator:
         importing Formatting from utils and calling OneTimePayout to get a formatted dictionairy.  
         
         """
-        if not self.__accs.get(TAG):
-            raise KeyError(f'{TAG} does not exist in account cache.')
+
         
         self.__current_account = TAG
         self.__current_session = requests.Session()
         
-        return self.__ExecuteSequence(METHOD='GROUP_ONE_TIME_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
-    
+        return self.__ExecuteSequence(METHOD='GROUP_ONE_TIME_PAYOUT', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
+
+    @Validate.validate_tag   
     @Validate.validate_types
     def recurring_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> requests.Response:
         """
@@ -205,15 +205,14 @@ class Authenticator:
         importing Formatting from utils and calling RecurringPayout to get a formatted dictionairy.  
         
         """
-        if not self.__accs.get(TAG):
-            raise KeyError(f'{TAG} does not exist in account cache.')
+
         
         self.__current_account = TAG
         self.__current_session = requests.Session()
         
-        return self.__ExecuteSequence(METHOD='GROUP_RECURRING_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
+        return self.__ExecuteSequence(METHOD='GROUP_RECURRING_PAYOUT', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
 
-    @Validate.validate_tag    
+    @Validate.validate_tag   
     @Validate.validate_types
     def accessory_purchase(self, TAG: str, ACCESSORY_ID: int, PURCHASE_DATA: dict) -> requests.Response:
         """
@@ -226,14 +225,14 @@ class Authenticator:
         importing Formatting from utils and calling AccessoryPurchase to get a formatted dictionairy.  
         
         """
-        if not self.__accs.get(TAG):
-            raise KeyError(f'{TAG} does not exist in account cache.')
+
         
         self.__current_account = TAG
         self.__current_session = requests.Session()
         
-        return self.__ExecuteSequence(METHOD='ACCESSORY_PURCHASE', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'ACCESSORY_ID': ACCESSORY_ID, 'POSTDATA': PURCHASE_DATA})
-          
+        # return self.__ExecuteSequence(METHOD='ACCESSORY_PURCHASE', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'ACCESSORY_ID': ACCESSORY_ID, 'POSTDATA': PURCHASE_DATA})
+ 
+    @Validate.validate_tag          
     @Validate.validate_types
     def info(self, TAG: str) -> dict:
         """
@@ -243,12 +242,12 @@ class Authenticator:
         Will raise a *KeyError* if the TAG does not exist in the cache.
         
         """
-        if self.__accs.get(TAG):
-            return self.__accs[TAG]
+        if self._accs.get(TAG):
+            return self._accs[TAG]
         raise KeyError(f'{TAG} does not exist in account cache.')
     
     def __repr__(self) -> str:
-        return f'CLASS REPR: {self.__accs}'
+        return f'CLASS REPR: {self._accs}'
  
   
 class AuthenticatorAsync:
@@ -260,7 +259,7 @@ class AuthenticatorAsync:
     
     """
     def __init__(self) -> None:
-        self.__accs: dict[str, dict[str,int]] = dict()
+        self._accs: dict[str, dict[str,int]] = dict()
         self.__current_account = str()
         self.__current_session: aiohttp.ClientSession()
     
@@ -268,7 +267,7 @@ class AuthenticatorAsync:
         METHOD = kwargs['METHOD']
         INIT_DATA: dict = kwargs['INIT_DATA']
         varDict = {'Content-Type': 'application/json', 'actionType': 7}
-        varDict['.ROBLOSECURITY'] = self.__accs[self.__current_account]['RBLX_COOKIE']
+        varDict['.ROBLOSECURITY'] = self._accs[self.__current_account]['RBLX_COOKIE']
         
         SEQUENCE = config.Config._Sequence(METHOD)
 
@@ -282,7 +281,7 @@ class AuthenticatorAsync:
                 
             methodData = methodInfo['DATA']
             if not isinstance(methodData, str):
-                varDict['OTP_SECRET'] = privUtils._secrTo6Digi(self.__accs[self.__current_account]['OTP_SECRET'])
+                varDict['OTP_SECRET'] = privUtils._secrTo6Digi(self._accs[self.__current_account]['OTP_SECRET'])
                 dataSubmit = {}
                 for d in methodData:
                     dataSubmit[d] = varDict[methodData[d]]
@@ -337,9 +336,10 @@ class AuthenticatorAsync:
             TAG = USER_ID
         
         accountData: dict = _Profile(OTP_SECRET, RBLX_COOKIE, int(USER_ID)).__dict__
-        self.__accs[TAG] = accountData
+        self._accs[TAG] = accountData
         return accountData
-    
+
+    @Validate.validate_tag   
     @Validate.validate_types
     def config(self, TAG: str, UPDATED_INFO: dict[str, str]) -> dict:
         """
@@ -350,10 +350,11 @@ class AuthenticatorAsync:
         
         """
         for _k in UPDATED_INFO:
-            self.__accs[TAG][_k] = UPDATED_INFO[_k]
+            self._accs[TAG][_k] = UPDATED_INFO[_k]
             
-        return self.__accs[TAG]
-    
+        return self._accs[TAG]
+
+    @Validate.validate_tag   
     @Validate.validate_types
     def remove(self, TAG: str) -> bool:
         """
@@ -363,11 +364,12 @@ class AuthenticatorAsync:
         Will raise a *KeyError* if the TAG does not exist in the cache.
         
         """
-        if self.__accs.get(TAG):
-            self.__accs.pop(TAG)
+        if self._accs.get(TAG):
+            self._accs.pop(TAG)
             return True
         raise KeyError(f'{TAG} does not exist in account cache.')    
-    
+
+    @Validate.validate_tag   
     @Validate.validate_types
     async def accept_trade(self, TAG: str, TRADE_ID: int) -> aiohttp.ClientResponse:
         """
@@ -378,14 +380,14 @@ class AuthenticatorAsync:
         :param str TRADE_ID: Speaks for itself. Make sure its the valid one though :)     
         
         """
-        if not self.__accs.get(TAG):
-            raise KeyError(f'{TAG} does not exist in account cache.')
+
         
         self.__current_account = TAG
         self.__current_session = aiohttp.ClientSession()
         
-        return await self.__ExecuteSequence(METHOD='ACCEPT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
-      
+        return await self.__ExecuteSequence(METHOD='ACCEPT', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
+  
+    @Validate.validate_tag   
     @Validate.validate_types
     async def send_trade(self, TAG: str, TRADE_DATA: dict) -> aiohttp.ClientResponse:
         """
@@ -397,14 +399,14 @@ class AuthenticatorAsync:
         importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
         
         """
-        if not self.__accs.get(TAG):
-            raise KeyError(f'{TAG} does not exist in account cache.')
+
         
         self.__current_account = TAG
         self.__current_session = aiohttp.ClientSession()
         
-        await self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
-    
+        await self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
+
+    @Validate.validate_tag   
     @Validate.validate_types
     async def one_time_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> aiohttp.ClientResponse:
         """
@@ -417,14 +419,14 @@ class AuthenticatorAsync:
         importing Formatting from utils and calling OneTimePayout to get a formatted dictionairy.  
         
         """
-        if not self.__accs.get(TAG):
-            raise KeyError(f'{TAG} does not exist in account cache.')
+
         
         self.__current_account = TAG
         self.__current_session = aiohttp.ClientSession()
         
-        return await self.__ExecuteSequence(METHOD='GROUP_ONE_TIME_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
-    
+        return await self.__ExecuteSequence(METHOD='GROUP_ONE_TIME_PAYOUT', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
+
+    @Validate.validate_tag   
     @Validate.validate_types
     async def recurring_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> aiohttp.ClientResponse:
         """
@@ -437,13 +439,12 @@ class AuthenticatorAsync:
         importing Formatting from utils and calling RecurringPayout to get a formatted dictionairy.  
         
         """
-        if not self.__accs.get(TAG):
-            raise KeyError(f'{TAG} does not exist in account cache.')
+
         
         self.__current_account = TAG
         self.__current_session = aiohttp.ClientSession()
         
-        return await self.__ExecuteSequence(METHOD='GROUP_RECURRING_PAYOUT', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
+        return await self.__ExecuteSequence(METHOD='GROUP_RECURRING_PAYOUT', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'GROUP_ID': GROUP_ID, 'POSTDATA': PAYOUT_DATA})
     
     @Validate.validate_tag    
     @Validate.validate_types
@@ -458,14 +459,14 @@ class AuthenticatorAsync:
         importing Formatting from utils and calling AccessoryPurchase to get a formatted dictionairy.  
         
         """
-        if not self.__accs.get(TAG):
-            raise KeyError(f'{TAG} does not exist in account cache.')
+
         
         self.__current_account = TAG
         self.__current_session = requests.Session()
         
-        return await self.__ExecuteSequence(METHOD='ACCESSORY_PURCHASE', INIT_DATA={'USER_ID': self.__accs[self.__current_account]['USER_ID'],'ACCESSORY_ID': ACCESSORY_ID, 'POSTDATA': PURCHASE_DATA})
-        
+        return await self.__ExecuteSequence(METHOD='ACCESSORY_PURCHASE', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'ACCESSORY_ID': ACCESSORY_ID, 'POSTDATA': PURCHASE_DATA})
+    
+    @Validate.validate_tag   
     @Validate.validate_types
     def info(self, TAG: str) -> dict:
         """
@@ -475,9 +476,9 @@ class AuthenticatorAsync:
         Will raise a *KeyError* if the TAG does not exist in the cache.
         
         """
-        if self.__accs.get(TAG):
-            return self.__accs[TAG]
+        if self._accs.get(TAG):
+            return self._accs[TAG]
         raise KeyError(f'{TAG} does not exist in account cache.')
     
     def __repr__(self) -> str:
-        return f'CLASS REPR: {self.__accs}'
+        return f'CLASS REPR: {self._accs}'
