@@ -33,7 +33,7 @@ class Config:
             'COOKIES': ['.ROBLOSECURITY'],
             # 'COOKIES': [],
             'HEADERS': [],
-            'DATA': 'SEND',
+            'DATA': 'TRADE',
             'STATUS': [200, 403],
             'RETURN_HEADERS': ["x-csrf-token"],
             'PROCESSING': None
