@@ -31,9 +31,8 @@ class Config:
             'METHOD': 'POST',
             'URL': "https://auth.roblox.com/v2/logout",
             'COOKIES': ['.ROBLOSECURITY'],
-            # 'COOKIES': [],
             'HEADERS': [],
-            'DATA': 'TRADE',
+            'DATA': {},
             'STATUS': [200, 403],
             'RETURN_HEADERS': ["x-csrf-token"],
             'PROCESSING': None
@@ -43,7 +42,7 @@ class Config:
             'URL': None,
             'COOKIES': ['.ROBLOSECURITY'],
             'HEADERS': ['x-csrf-token', 'Content-Type'],
-            'DATA': {},
+            'DATA': 'TRADE',
             'STATUS': [403],
             'RETURN_HEADERS': ["rblx-challenge-metadata", "rblx-challenge-id", "rblx-challenge-type"],
             'PROCESSING': [['_getMetaDataChallengeId'],['challengeId']]
