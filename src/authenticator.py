@@ -225,7 +225,7 @@ class Authenticator:
         self.__current_account = TAG
         self.__current_session = requests.Session()
         
-        # return self.__ExecuteSequence(METHOD='ACCESSORY_PURCHASE', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'ACCESSORY_ID': ACCESSORY_ID, 'POSTDATA': PURCHASE_DATA})
+        return self.__ExecuteSequence(METHOD='ACCESSORY_PURCHASE', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'ACCESSORY_ID': ACCESSORY_ID, 'POSTDATA': PURCHASE_DATA})
  
     @Validate.validate_tag          
     @Validate.validate_types
