@@ -13,7 +13,7 @@ RobloxAuthenticator contains both a synchronous and asynchronous way of making t
 This library is therefore not made and compatible to be used as account stealer. RobloxAuthenticator is simply for enthusiastic people like me who want to make their life easier, make cool stuff and do good for others.`
 
 
-    ⚠️ RobloxAuthenticator requires the external pyotp, requests and aiohttp (only for asynchronous methods) libraries to function. ⚠️
+    ⚠️ RobloxAuthenticator requires the external pyotp, requests and aiohttp library to function. ⚠️
 
 ### A small introduction:
 Check out [this](https://github.com/PogoDigitalism/RobloxAuthenticator/tree/main/examples) for examples on how to use RobloxAuthenticator.
