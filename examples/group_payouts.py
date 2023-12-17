@@ -3,7 +3,7 @@ from authenticator import Authenticator
 from exceptions import *
 
 t = Authenticator()
-t.add(USER_ID = 98452948, 
+t.add(USER_ID = 98452948, # make sure this is the group holder, only the holder can make payout requests
       OTP_SECRET = 'OTPSECRETHERE', 
       RBLX_COOKIE = 'ROBLOSECURITYCOOKIEHERE', 
       TAG = 'acc1')
