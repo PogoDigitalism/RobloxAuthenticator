@@ -53,7 +53,7 @@ class Config:
             'COOKIES': ['.ROBLOSECURITY'],
             'HEADERS': ['x-csrf-token', 'Content-Type'],
             'DATA': 'GROUP',
-            'STATUS': [400],
+            'STATUS': [403],
             'RETURN_HEADERS': ["rblx-challenge-metadata", "rblx-challenge-id", "rblx-challenge-type"],
             'PROCESSING': [['_getMetaDataChallengeId'],['challengeId']]
         },
@@ -63,7 +63,7 @@ class Config:
             'COOKIES': ['.ROBLOSECURITY'],
             'HEADERS': ['x-csrf-token', 'Content-Type'],
             'DATA': 'PURCHASE',
-            'STATUS': [400],
+            'STATUS': [403],
             'RETURN_HEADERS': ["rblx-challenge-metadata", "rblx-challenge-id", "rblx-challenge-type"],
             'PROCESSING': [['_getMetaDataChallengeId'],['challengeId']]
         },
