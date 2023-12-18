@@ -15,10 +15,10 @@ class _Profile: #Kind of redundant, added for code readibility
 
 class Authenticator:
     """
-    The synchronous wrapper for TradeAuthenticator.
+    The synchronous wrapper for RobloxAuthenticator.
 
     Please read the GitHub for all info that you need.
-    https://github.com/PogoDigitalism/RobloxMobileAuthenticator/
+    https://github.com/PogoDigitalism/RobloxAuthenticator/
     
     """  
     def __init__(self) -> None:
@@ -247,10 +247,10 @@ class Authenticator:
   
 class AuthenticatorAsync:
     """
-    The *A*synchronous wrapper for TradeAuthenticator.
+    The *A*synchronous wrapper for RobloxAuthenticator.
 
     Please read the GitHub for all info that you need.
-    https://github.com/PogoDigitalism/RobloxMobileAuthenticator/
+    https://github.com/PogoDigitalism/RobloxAuthenticator/
     
     """
     def __init__(self) -> None:
