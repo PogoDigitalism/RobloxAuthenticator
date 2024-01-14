@@ -169,6 +169,44 @@ class Authenticator:
 
     @Validate.validate_tag   
     @Validate.validate_types
+    def counter_trade(self, TAG: str, TRADE_DATA: dict, TRADE_ID: int) -> requests.Response:
+        """
+        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
+        
+        :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
+        Will raise a *KeyError* if the TAG does not exist in the cache.
+        :param str TRADE_DATA: Speaks for itself. You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
+        
+        """
+
+        
+        self.__current_account = TAG
+        self.__current_session = requests.session()
+        
+        return self.__ExecuteSequence(METHOD='COUNTER', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': TRADE_DATA})
+
+    @Validate.validate_tag   
+    @Validate.validate_types
+    def decline_trade(self, TAG: str, TRADE_ID: int) -> requests.Response:
+        """
+        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
+        
+        :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
+        Will raise a *KeyError* if the TAG does not exist in the cache.
+        :param str TRADE_DATA: Speaks for itself. You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
+        
+        """
+
+        
+        self.__current_account = TAG
+        self.__current_session = requests.session()
+        
+        return self.__ExecuteSequence(METHOD='DECLINE', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID})
+
+    @Validate.validate_tag   
+    @Validate.validate_types
     def one_time_payout(self, TAG: str, GROUP_ID: int, PAYOUT_DATA: dict) -> requests.Response:
         """
         Pay out a group member for a single time with Robux. 
@@ -399,7 +437,45 @@ class AuthenticatorAsync:
         self.__current_account = TAG
         self.__current_session = aiohttp.ClientSession()
         
-        await self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
+        return await self.__ExecuteSequence(METHOD='SEND', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'], 'POSTDATA': TRADE_DATA})
+
+    @Validate.validate_tag   
+    @Validate.validate_types
+    async def counter_trade(self, TAG: str, TRADE_DATA: dict, TRADE_ID: int) -> requests.Response:
+        """
+        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
+        
+        :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
+        Will raise a *KeyError* if the TAG does not exist in the cache.
+        :param str TRADE_DATA: Speaks for itself. You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
+        
+        """
+
+        
+        self.__current_account = TAG
+        self.__current_session = requests.session()
+        
+        return await self.__ExecuteSequence(METHOD='COUNTER', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': TRADE_DATA})
+
+    @Validate.validate_tag   
+    @Validate.validate_types
+    async def decline_trade(self, TAG: str, TRADE_ID: int) -> requests.Response:
+        """
+        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
+        
+        :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
+        Will raise a *KeyError* if the TAG does not exist in the cache.
+        :param str TRADE_DATA: Speaks for itself. You can easily format your data into a valid TRADE_DATA entry using
+        importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
+        
+        """
+
+        
+        self.__current_account = TAG
+        self.__current_session = requests.session()
+        
+        return await self.__ExecuteSequence(METHOD='DECLINE', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID})
 
     @Validate.validate_tag   
     @Validate.validate_types
