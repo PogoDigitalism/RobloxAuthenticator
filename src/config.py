@@ -16,7 +16,9 @@ class Config:
         'TRADE':
             {
                 'SEND': 'https://trades.roblox.com/v1/trades/send',
-                'ACCEPT': 'https://trades.roblox.com/v1/trades/$TRADE_ID$/accept'
+                'ACCEPT': 'https://trades.roblox.com/v1/trades/$TRADE_ID$/accept',
+                'DECLINE': 'https://trades.roblox.com/v1/trades/$TRADE_ID$/decline',
+                'COUNTER': 'https://trades.roblox.com/v1/trades/$TRADE_ID$/counter'
             },
         'GROUP':
             {
@@ -128,8 +130,12 @@ class Config:
     SEQUENCECONFIG = {
         'SEND': ['XCSRF', 'CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'TRADE'],
         'ACCEPT': ['XCSRF', 'CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'TRADE'],
+        'DECLINE': ['XCSRF', 'CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'TRADE'],
+        'COUNTER': ['XCSRF', 'CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'TRADE'],
+        
         'GROUP_ONE_TIME_PAYOUT': ['XCSRF', 'GROUP_CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'GROUP'],
         'GROUP_RECURRING_PAYOUT': ['XCSRF', 'GROUP_CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'GROUP'],
+
         'ACCESSORY_PURCHASE': ['XCSRF', 'PURCHASE_CHALLENGEID', 'TWOSTEP', 'CONTINUE', 'PURCHASE']    
     }
 
@@ -139,6 +145,8 @@ class Config:
         'remove': ['TAG'],
         'accept_trade': ['TAG', 'TRADE_ID'],
         'send_trade': ['TAG', 'TRADE_DATA'],
+        'decline_trade': ['TAG', 'TRADE_ID'],
+        'counter_trade': ['TAG', 'TRADE_ID','TRADE_DATA'],
         'one_time_payout': ['TAG', 'GROUP_ID', 'PAYOUT_DATA'],
         'recurring_payout': ['TAG', 'GROUP_ID', 'PAYOUT_DATA'],
         'accessory_purchase': ['TAG', 'ACCESSORY_ID', 'PURCHASE_DATA'],
