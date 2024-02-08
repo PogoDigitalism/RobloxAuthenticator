@@ -91,9 +91,13 @@ class Validate:
 
     @staticmethod
     def _tag(*args, **kwargs) -> bool | None:
-        if not args[0]._accs.get(args[1]):
-            raise KeyError(f"{args[1]} does not exist in account cache.")
         """Private method. """
+        if len(args) > 1:
+            if not args[0]._accs.get(args[1]):
+                raise KeyError(f"{args[1]} does not exist in account cache.")
+        else:
+            if not args[0]._accs.get(kwargs['TAG']):
+                raise KeyError(f"{kwargs['TAG']} does not exist in account cache.")
         
 class Formatting:
     @staticmethod
