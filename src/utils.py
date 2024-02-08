@@ -61,7 +61,7 @@ class Validate:
         return wrapper
 
     @staticmethod
-    def _types(*args, **kwargs) -> bool | None:
+    def _types(*args, **kwargs) -> bool | None: # DUE FOR CHANGE AS I HAVE WRITTEN AN IMPROVED TYPE FORCER
         """Private method. """
         
         if args:
