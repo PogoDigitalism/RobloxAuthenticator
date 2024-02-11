@@ -6,6 +6,7 @@ import json
 import base64
 import config
 import asyncio
+import typing
 
 class privUtils:
     def _getMetaDataChallengeId(resp: Union[requests.Response, aiohttp.ClientResponse], VAR_DICT: dict):
@@ -62,8 +63,7 @@ class Validate:
 
     @staticmethod
     def _types(*args, **kwargs) -> bool | None: # DUE FOR CHANGE AS I HAVE WRITTEN AN IMPROVED TYPE FORCER
-        """Private method. """
-        
+        """Private method. """  
         if args:
             args = list(args)
             if 'CLASS' in str(args[0]): 
@@ -89,6 +89,19 @@ class Validate:
 
         return True
 
+        # def force_types(func: typing.Callable):
+        #     def wrapper(*args, **kwargs):
+        #         annotations = func.__annotations__
+        #         for missing_kwarg, arg in zip(annotations.keys(), args):
+        #             kwargs[missing_kwarg] = arg  
+        
+        #         for kwarg, value in kwargs.items():
+        #             if not isinstance(value, annotations[kwarg]):
+        #                 raise TypeError(f'{value} is not of type {annotations[kwarg]}. Please submit parameters in their hinted type.')
+        
+        #         return func(**kwargs)
+        #     return wrapper
+            
     @staticmethod
     def _tag(*args, **kwargs) -> bool | None:
         """Private method. """
