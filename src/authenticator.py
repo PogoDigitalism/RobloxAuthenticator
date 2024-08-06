@@ -171,12 +171,13 @@ class Authenticator:
     @Validate.validate_types
     def counter_trade(self, TAG: str, TRADE_DATA: dict, TRADE_ID: int) -> requests.Response:
         """
-        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
+        Counter a trade with the speficied account (through TAG), the TRADE_DATA of the trade and the TRADE_ID of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
         :param str TRADE_DATA: Speaks for itself. You can easily format your data into a valid TRADE_DATA entry using
         importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
+        :param int TRADE_ID: The ID of the trade to counter.
         
         """
 
@@ -190,12 +191,11 @@ class Authenticator:
     @Validate.validate_types
     def decline_trade(self, TAG: str, TRADE_ID: int) -> requests.Response:
         """
-        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
+        Decline a trade with the speficied account (through TAG) and the TRADE_ID of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
-        :param str TRADE_DATA: Speaks for itself. You can easily format your data into a valid TRADE_DATA entry using
-        importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
+        :param int TRADE_ID: The ID of the trade to decline.
         
         """
 
@@ -443,12 +443,13 @@ class AuthenticatorAsync:
     @Validate.validate_types
     async def counter_trade(self, TAG: str, TRADE_DATA: dict, TRADE_ID: int) -> requests.Response:
         """
-        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
+        Counter a trade with the speficied account (through TAG), the TRADE_DATA of the trade and the TRADE_ID of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
         :param str TRADE_DATA: Speaks for itself. You can easily format your data into a valid TRADE_DATA entry using
         importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
+        :param int TRADE_ID: The ID of the trade to counter.
         
         """
 
@@ -462,12 +463,11 @@ class AuthenticatorAsync:
     @Validate.validate_types
     async def decline_trade(self, TAG: str, TRADE_ID: int) -> requests.Response:
         """
-        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
+        Decline a trade with the speficied account (through TAG) and the TRADE_ID of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
-        :param str TRADE_DATA: Speaks for itself. You can easily format your data into a valid TRADE_DATA entry using
-        importing Formatting from utils and calling TradeData to get a formatted dictionairy.  
+        :param int TRADE_ID: The ID of the trade to decline.
         
         """
 
