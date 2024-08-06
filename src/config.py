@@ -6,7 +6,8 @@ class Config:
         'CHALLENGEID':
             {
                 'SEND': 'https://trades.roblox.com/v1/trades/send',
-                'ACCEPT': 'https://trades.roblox.com/v1/trades/$TRADE_ID$/accept'
+                'ACCEPT': 'https://trades.roblox.com/v1/trades/$TRADE_ID$/accept',
+                'DECLINE': 'https://trades.roblox.com/v1/trades/$TRADE_ID$/decline'
             },
         'GROUP_CHALLENGEID':
             {

@@ -203,7 +203,7 @@ class Authenticator:
         self.__current_account = TAG
         self.__current_session = requests.session()
         
-        return self.__ExecuteSequence(METHOD='DECLINE', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID})
+        return self.__ExecuteSequence(METHOD='DECLINE', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
 
     @Validate.validate_tag   
     @Validate.validate_types
@@ -475,7 +475,7 @@ class AuthenticatorAsync:
         self.__current_account = TAG
         self.__current_session = requests.session()
         
-        return await self.__ExecuteSequence(METHOD='DECLINE', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID})
+        return await self.__ExecuteSequence(METHOD='DECLINE', INIT_DATA={'USER_ID': self._accs[self.__current_account]['USER_ID'],'TRADE_ID': TRADE_ID, 'POSTDATA': {}})
 
     @Validate.validate_tag   
     @Validate.validate_types
