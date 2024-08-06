@@ -134,7 +134,7 @@ class Authenticator:
     @Validate.validate_types
     def accept_trade(self, TAG: str, TRADE_ID: int) -> requests.Response:
         """
-        Accept a trade with the speficied account (through TAG) and the TRADE_ID of the trade that you want to accept.
+        Accept a trade with the specified account (through TAG) and the TRADE_ID of the trade that you want to accept.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
@@ -152,7 +152,7 @@ class Authenticator:
     @Validate.validate_types
     def send_trade(self, TAG: str, TRADE_DATA: dict) -> requests.Response:
         """
-        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
+        Send a trade with the specified account (through TAG) and the TRADE_DATA of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
@@ -171,7 +171,7 @@ class Authenticator:
     @Validate.validate_types
     def counter_trade(self, TAG: str, TRADE_DATA: dict, TRADE_ID: int) -> requests.Response:
         """
-        Counter a trade with the speficied account (through TAG), the TRADE_DATA of the trade and the TRADE_ID of the trade.
+        Counter a trade with the specified account (through TAG), the TRADE_DATA of the trade and the TRADE_ID of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
@@ -191,7 +191,7 @@ class Authenticator:
     @Validate.validate_types
     def decline_trade(self, TAG: str, TRADE_ID: int) -> requests.Response:
         """
-        Decline a trade with the speficied account (through TAG) and the TRADE_ID of the trade.
+        Decline a trade with the specified account (through TAG) and the TRADE_ID of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
@@ -406,7 +406,7 @@ class AuthenticatorAsync:
     @Validate.validate_types
     async def accept_trade(self, TAG: str, TRADE_ID: int) -> aiohttp.ClientResponse:
         """
-        Accept a trade with the speficied account (through TAG) and the TRADE_ID of the trade that you want to accept.
+        Accept a trade with the specified account (through TAG) and the TRADE_ID of the trade that you want to accept.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
@@ -424,7 +424,7 @@ class AuthenticatorAsync:
     @Validate.validate_types
     async def send_trade(self, TAG: str, TRADE_DATA: dict) -> aiohttp.ClientResponse:
         """
-        Send a trade with the speficied account (through TAG) and the TRADE_DATA of the trade.
+        Send a trade with the specified account (through TAG) and the TRADE_DATA of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
@@ -443,7 +443,7 @@ class AuthenticatorAsync:
     @Validate.validate_types
     async def counter_trade(self, TAG: str, TRADE_DATA: dict, TRADE_ID: int) -> requests.Response:
         """
-        Counter a trade with the speficied account (through TAG), the TRADE_DATA of the trade and the TRADE_ID of the trade.
+        Counter a trade with the specified account (through TAG), the TRADE_DATA of the trade and the TRADE_ID of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
@@ -463,7 +463,7 @@ class AuthenticatorAsync:
     @Validate.validate_types
     async def decline_trade(self, TAG: str, TRADE_ID: int) -> requests.Response:
         """
-        Decline a trade with the speficied account (through TAG) and the TRADE_ID of the trade.
+        Decline a trade with the specified account (through TAG) and the TRADE_ID of the trade.
         
         :param str TAG: Use USER_ID's value for TAG if you did not assign a TAG when creating the account that you want to use.
         Will raise a *KeyError* if the TAG does not exist in the cache.
